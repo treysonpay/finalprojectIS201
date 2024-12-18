@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Guessing Game</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .color-box {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .color-option {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            border: 1px solid #000;
+        }
+
+        .message {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .game-over {
+            font-size: 22px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="scratch.html">Back to Scratch</a>
+    </header>
+    <h1>I'm thinking of a color...Want to guess?</h1>
+    <input type="text" id="guess-input" placeholder="Type your guess...">
+    <button onclick="checkGuess()">Guess</button>
+
+    <div class="color-box" id="color-box"></div>
+    <div id="message" class="message"></div>
+
+    <script>
+        const colors = [
+            'red', 'blue', 'green', 'yellow', 'purple', 'orange',
+            'pink', 'brown', 'gray', 'white', 'teal'
+        ];
+
+        function getRandomColor() {
+            const randomIndex = Math.floor(Math.random() * colors.length);
+            return colors[randomIndex];
+        }
+
+        function displayColorOptions() {
+            const colorBox = document.getElementById('color-box');
+            colorBox.innerHTML = '';
+            colors.forEach(color => {
+                const colorDiv = document.createElement('div');
+                colorDiv.className = 'color-option';
+                colorDiv.style.backgroundColor = color;
+                colorBox.appendChild(colorDiv);
+            });
+        }
+
+        function checkGuess() {
+            const guess = document.getElementById('guess-input').value.toLowerCase();
+            const correctColor = getRandomColor();
+            const messageElement = document.getElementById('message');
+            
+            if (guess === correctColor.toLowerCase()) {
+                document.body.style.backgroundColor = guess;
+                messageElement.textContent = 'Took you long enough';
+                messageElement.style.color = 'black';
+            } else {
+                // Show one of the multiple discouraging messages
+                const messages = [
+                    'Better luck next time',
+                    'Oopsies, you failed',
+                    'Try again, or dont, doesnt matter to me',
+                    'Wrong guess, you should give up',
+                    'Not quite, you werent even close',
+                    'You arent very good at this',
+                    'My grandma is faster at guessing than you',
+                    'Ugh, I cant handle much more of this',
+                    'That was good...jk, it was a horrible guess',
+                    'YOU GOT IT...jk, wrong answer'
+                ];
+                const randomIndex = Math.floor(Math.random() * messages.length);
+                messageElement.textContent = messages[randomIndex];
+            }
+            document.getElementById('guess-input').value = ''; // Clear the input box
+        }
+
+        displayColorOptions();
+    </script>
+</body>
+</html>
